@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Montaje LICON Patología</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap">
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)} [hidden]{display:none!important} img{max-width:100%}
+/* Layout: manual de obra en una columna; barra de secciones fija arriba; fichas técnicas en tablas con scroll propio */
+:root{
+  --bg:#f4f3f2; --surface:#ffffff; --ink:#151314; --muted:#5b5557; --line:#dcd7d6;
+  --red:#c8102e; --red-soft:#fbe7ea; --warn:#8a5a00; --warn-soft:#fff3d6; --ok:#1d6b3a;
+  --f-ui:"Manrope", "Helvetica Neue", Arial, sans-serif;
+  --f-num:"JetBrains Mono", ui-monospace, Menlo, monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141213; --surface:#1d1a1b; --ink:#f1eeee; --muted:#b0a8aa; --line:#383234;
+  --red:#ff4d63; --red-soft:#3a1a20; --warn:#f2c46b; --warn-soft:#352a12; --ok:#6fd294; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141213; --surface:#1d1a1b; --ink:#f1eeee; --muted:#b0a8aa; --line:#383234;
+  --red:#ff4d63; --red-soft:#3a1a20; --warn:#f2c46b; --warn-soft:#352a12; --ok:#6fd294; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:16px;line-height:1.55;font-weight:500;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ink)}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{background:#151314;color:#f4f1f1;padding-block:28px 22px}
+header.top .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#ff8a98;font-weight:700}
+header.top h1{font-size:clamp(24px,5vw,32px);font-weight:800;line-height:1.15;margin:6px 0 10px;text-wrap:balance}
+header.top p{margin:0;color:#cfc8c9;max-width:60ch}
+nav.secs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--ink);}
+nav.secs .wrap{display:flex;gap:4px;overflow-x:auto;padding-block:8px;scrollbar-width:none}
+nav.secs a{color:var(--bg);text-decoration:none;font-size:13px;font-weight:700;padding:6px 10px;border-radius:6px;white-space:nowrap}
+nav.secs a:hover,nav.secs a:focus-visible{background:var(--red);color:#fff;outline:none}
+main{padding-block:8px 64px}
+section{padding-top:36px;scroll-margin-top:56px}
+h2{font-size:22px;font-weight:800;margin:0 0 4px;display:flex;align-items:baseline;gap:10px;text-wrap:balance}
+h2 .n{font-family:var(--f-num);font-size:13px;color:var(--red);font-weight:600}
+h3{font-size:16px;font-weight:700;margin:22px 0 8px}
+.lead{color:var(--muted);margin:0 0 16px;max-width:68ch}
+p{max-width:70ch}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:18px}
+.facts div{background:var(--surface);padding:14px 16px;min-width:0}
+.facts dt{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.facts dd{margin:4px 0 0;font-weight:700;font-size:17px}
+.facts dd small{display:block;font-weight:500;font-size:13px;color:var(--muted)}
+.num{font-family:var(--f-num);font-variant-numeric:tabular-nums}
+.note{border-left:4px solid var(--warn);background:var(--warn-soft);padding:12px 14px;border-radius:0 8px 8px 0;margin:14px 0;max-width:none}
+.note b{color:var(--warn)}
+.key{border-left:4px solid var(--red);background:var(--red-soft);padding:12px 14px;border-radius:0 8px 8px 0;margin:14px 0}
+figure{margin:14px 0 0}
+figure img,figure video{display:block;width:100%;max-width:100%;height:auto;border-radius:8px;background:#222;border:1px solid var(--line)}
+figcaption{font-size:13px;color:var(--muted);margin-top:6px}
+.zoom{cursor:zoom-in}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-top:14px}
+.gallery img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:6px;border:1px solid var(--line);cursor:zoom-in;display:block}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;margin-top:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:640px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;background:var(--bg)}
+tr:last-child td{border-bottom:0}
+td.c{font-family:var(--f-num);font-weight:600;color:var(--red);white-space:nowrap}
+.flag{display:inline-block;font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px;background:var(--warn-soft);color:var(--warn);margin-left:4px;white-space:nowrap}
+.days{display:grid;gap:12px;margin-top:14px}
+.day{display:grid;grid-template-columns:120px 1fr;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.day .d{font-weight:800}
+.day .d span{display:block;font-family:var(--f-num);font-size:12px;color:var(--muted);font-weight:500}
+.day .d em{display:block;font-style:normal;font-size:12px;color:var(--red);font-weight:700;margin-top:4px}
+.day ul{margin:0;padding-left:18px}
+.day li{margin:2px 0}
+.day.ev{background:transparent;border-style:dashed}
+@media (max-width:520px){.day{grid-template-columns:1fr;gap:6px}}
+.check{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:6px}
+.check label{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;cursor:pointer}
+.check input{width:20px;height:20px;margin-top:2px;accent-color:var(--red);flex:none}
+.check input:checked + span{color:var(--muted);text-decoration:line-through}
+.check small{display:block;color:var(--muted);text-decoration:none}
+.prog{font-family:var(--f-num);font-size:13px;color:var(--muted);margin-top:6px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:700px){.cols{grid-template-columns:1fr}}
+.cols > div{min-width:0}
+ul.plain{padding-left:18px;margin:6px 0}
+ul.plain li{margin:3px 0}
+.contacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:12px}
+.contacts div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.contacts b{display:block}
+.contacts span{color:var(--muted);font-size:14px}
+.contacts .num{user-select:all;color:var(--ink);font-size:15px;display:block;margin-top:4px}
+a{color:var(--red)}
+#lb{position:fixed;inset:0;background:rgba(10,8,9,.94);z-index:20;display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));cursor:zoom-out;overflow:auto}
+#lb img{max-width:none;width:min(2400px,220vw);height:auto;cursor:zoom-out}
+#lb.fit img{width:auto;max-width:100%;max-height:100%}
+#lb button{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));background:#fff;color:#111;border:0;border-radius:6px;font:700 14px var(--f-ui);padding:8px 12px;cursor:pointer}
+@media (prefers-reduced-motion:no-preference){nav.secs a{transition:background .15s}}
+
+/* Mapa de cajas de luz (celular primero) */
+:root{--cj-ok:#1d6b3a;--cj-ok-soft:#e1f2e7;--cj-pend:#8a5a00;--cj-pend-soft:#fff3d6;--cj-block:#2a2526;--cj-block-fill:rgba(30,25,26,.74)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--cj-ok:#6fd294;--cj-ok-soft:#173326;--cj-pend:#f2c46b;--cj-pend-soft:#352a12;--cj-block:#e0d9d9;--cj-block-fill:rgba(8,6,7,.8)}}
+:root[data-theme="dark"]{--cj-ok:#6fd294;--cj-ok-soft:#173326;--cj-pend:#f2c46b;--cj-pend-soft:#352a12;--cj-block:#e0d9d9;--cj-block-fill:rgba(8,6,7,.8)}
+.cj-sum{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:4px 0 12px}
+.cj-chip{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;padding:5px 10px;border-radius:999px}
+.cj-chip.ok{background:var(--cj-ok-soft);color:var(--cj-ok)}.cj-chip.pend{background:var(--cj-pend-soft);color:var(--cj-pend)}
+.cj-dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex:none}
+.cj-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:760px){.cj-grid{grid-template-columns:1fr}}
+.cj-box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px;min-width:0}
+.cj-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:6px}
+.cj-plan{position:relative;background:#111;min-width:100%}
+@media (max-width:620px){.cj-plan{width:600px}}
+.cj-plan img{display:block;width:100%;height:auto}
+.cj-mk{position:absolute;transform:translate(-50%,-50%);width:32px;height:32px;border-radius:50%;border:2px solid #fff;font:800 13px/1 var(--f-ui);color:#fff;cursor:pointer;display:grid;place-items:center;padding:0;box-shadow:0 1px 5px rgba(0,0,0,.6);touch-action:manipulation}
+.cj-mk.ok{background:#1d6b3a}.cj-mk.pend{background:#a86400}
+.cj-mk[aria-pressed="true"]{background:#c8102e;transform:translate(-50%,-50%) scale(1.2);z-index:2}
+.cj-mk:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.cj-hint{font-size:12px;color:var(--muted);margin:6px 0 0}
+@media (min-width:621px){.cj-hint.m{display:none}}
+.cj-nums{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px;margin-top:10px}
+@media (max-width:520px){.cj-nums{grid-template-columns:repeat(5,minmax(0,1fr))}}
+.cj-nums button{font:800 15px var(--f-ui);min-height:44px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;position:relative;touch-action:manipulation}
+.cj-nums button::after{content:"";position:absolute;left:50%;bottom:5px;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:var(--cj-ok)}
+.cj-nums button.pend::after{background:var(--cj-pend)}
+.cj-nums button[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.cj-nums button:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.cj-det{scroll-margin-top:64px}
+.cj-title{font-size:18px;font-weight:800;margin:0;line-height:1.25;text-wrap:balance}
+.cj-where{color:var(--muted);margin:2px 0 10px;font-size:14px}
+.cj-big{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin:0 0 10px}
+.cj-big div{background:var(--surface);padding:10px 12px;min-width:0}
+.cj-big dt{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.cj-big dd{margin:2px 0 0;font-family:var(--f-num);font-weight:600;font-size:18px}
+.cj-big dd small{display:block;font-family:var(--f-ui);font-size:12px;font-weight:500;color:var(--muted)}
+.cj-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 10px;font-size:14px}
+.cj-tg{display:flex;gap:6px;margin:0 0 8px}
+.cj-tg button{font:700 13px var(--f-ui);border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:7px 12px;border-radius:6px;cursor:pointer;min-height:36px}
+.cj-tg button[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.cj-elev svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.cj-note{font-size:13px;color:var(--muted);margin:8px 0 0}
+.cj-list{display:grid;gap:8px;margin-top:12px}
+.cj-card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.cj-card h4{margin:0 0 6px;font-size:14px;font-weight:800;display:flex;gap:8px;align-items:baseline}
+.cj-card h4 .c{font-family:var(--f-num);color:var(--red);font-weight:600;font-size:13px}
+.cj-face{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;width:100%;text-align:left;font:inherit;color:inherit;background:none;border:0;border-top:1px solid var(--line);padding:8px 0;cursor:pointer}
+.cj-face:first-of-type{border-top:0}
+.cj-face .n{font:800 14px var(--f-ui);width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:#fff;background:#1d6b3a}
+.cj-face .n.pend{background:#a86400}
+.cj-face b{display:block;font-size:14px}
+.cj-face span.s{font-size:12px;color:var(--muted)}
+.cj-face .m{font-family:var(--f-num);font-size:13px;white-space:nowrap}
+.cj-face:focus-visible{outline:2px solid var(--red);outline-offset:2px;border-radius:4px}
+</style>
+</head>
+<body>
+
+
+<header class="top">
+  <div class="wrap">
+    <div class="eyebrow">Manual de montaje · Fabricante</div>
+    <h1>Stand LICON · Congreso de Patología 2026</h1>
+    <p>Expo Chihuahua · Stand 37 · Isla de 16 × 10 m. Todo lo que el equipo de montaje necesita en un solo lugar: horarios, acceso, renders, medidas de cajas de luz, equipos y pendientes.</p>
+  </div>
+</header>
+
+<nav class="secs" aria-label="Secciones">
+  <div class="wrap">
+    <a href="#ficha">Ficha</a><a href="#horarios">Horarios</a><a href="#acceso">Acceso</a><a href="#renders">Renders</a><a href="#planta">Planta y cajas</a><a href="#equipos">Equipos</a><a href="#alcance">Alcance</a><a href="#reglas">Reglas</a><a href="#verificar">Verificar</a><a href="#contactos">Contactos</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<section id="ficha">
+  <h2><span class="n">01</span>Ficha del stand</h2>
+  <dl class="facts">
+    <div><dt>Evento</dt><dd>Congreso de Patología 2026<small>Cliente: Grupo LICON</small></dd></div>
+    <div><dt>Sede</dt><dd>Expo Chihuahua<small>Centro de Exposiciones y Convenciones</small></dd></div>
+    <div><dt>Stand</dt><dd><span class="num">#37</span> · isla<small>Cuatro frentes libres</small></dd></div>
+    <div><dt>Huella</dt><dd><span class="num">16 × 10 m</span><small>160 m² · altura de diseño 4.0 m</small></dd></div>
+    <div><dt>Entrega del stand</dt><dd>Lun 26 oct, antes de las 20 h<small>Montaje desde el sáb 24 · el mar 27 llega LICON con sus equipos</small></dd></div>
+    <div><dt>Congreso</dt><dd>Mié 28 – Sáb 31 oct<small>Desmontaje sáb 31 desde las 15:00</small></dd></div>
+  </dl>
+  <div class="key"><b>Diseño vigente:</b> el del render y la planta de cajas de luz del 19 de octubre (secciones 04 y 05). Los renders anteriores de Patología (volúmenes blancos, agosto–septiembre) ya no aplican. <b>El arco de pantalla LED no va en Chihuahua.</b></div>
+  <div class="key"><b>Fecha de entrega: lunes 26 de octubre.</b> El martes 27 llega LICON con sus equipos, así que el stand tiene que estar terminado, iluminado y limpio el lunes. El recinto permite montaje hasta el martes, pero ese día es solo para equipos y ajustes.</div>
+</section>
+
+<section id="horarios">
+  <h2><span class="n">02</span>Horarios</h2>
+  <p class="lead">Horarios oficiales del Manual del Expositor del congreso y plan de trabajo por día.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Qué</th><th>Fecha</th><th>Horario</th><th>Notas</th></tr></thead>
+    <tbody>
+      <tr><td><b>Registro de personal y gafetes</b></td><td>Sáb 24 oct<br>Dom 25 oct</td><td class="num">09:00 – 20:00<br>10:00 – 18:00</td><td>Área de registro del congreso. Entregar Anexo B con INE de cada persona. Sin Anexo B no hay gafete ni acceso.</td></tr>
+      <tr><td><b>Montaje</b></td><td>Sáb 24 – Mar 27 oct</td><td class="num">09:00 – 20:00</td><td>Todos los días. Horario extendido solo con solicitud previa a la Gerencia de Operaciones de Expo Chihuahua.</td></tr>
+      <tr><td><b>Exhibición</b></td><td>Mié 28 – Sáb 31 oct</td><td>Según Programa Final</td><td>Cuatro visitas diarias a la exposición. El stand no se puede retirar antes.</td></tr>
+      <tr><td><b>Desmontaje</b></td><td>Sáb 31 oct</td><td class="num">desde 15:00</td><td>Hora exacta la confirma el Coordinador de Exposición Tecnológica. No hay salidas anticipadas.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Plan de trabajo propuesto</h3>
+  <div class="days">
+    <div class="day"><div class="d">Sáb 24 oct<span>Día 1 · 09–20 h</span></div>
+      <ul><li>Registro del personal en el área de registro (INE + Anexo B). Sin gafete no se entra.</li>
+      <li>Recorrido inicial con el organizador y firma del Acta de Entrega-Recepción del área. Revisar y fotografiar el estado del piso.</li>
+      <li>Descarga solo por los andenes del lado derecho del salón (ver sección 03). El camión se mueve en cuanto termina de descargar.</li>
+      <li>Trazo del stand en el piso. Confirmar orientación contra el planograma antes de fijar nada.</li>
+      <li>Tarima de 10 cm en los 160 m², con refuerzo local bajo el Procleix Panther.</li>
+      <li>Ubicar la acometida eléctrica del recinto y llevar canalizaciones bajo tarima.</li>
+      <li>Si se ve apretado, pedir hoy mismo horario extendido a Operaciones para domingo y lunes.</li></ul></div>
+    <div class="day"><div class="d">Dom 25 oct<span>Día 2 · 09–20 h</span></div>
+      <ul><li>Último día de registro de gafetes (10–18 h) para quien no se registró el sábado.</li>
+      <li>Piso laminado de alto tráfico: bajopiso, colocación, zoclo y remate perimetral. Los cortes no se pueden hacer dentro de la sala (ver sección 08). Proteger en cuanto quede.</li>
+      <li>Estructura negra, columnas y techos con filo rojo.</li>
+      <li>Arranque de cajas de luz y mamparas (sección 05).</li></ul></div>
+    <div class="day"><div class="d">Lun 26 oct<span>Día 3 · 09–20 h</span><em>Entrega antes de las 20 h</em></div>
+      <ul><li>Cierre de cajas de luz y mamparas, letreros LICON iluminados y línea de luz roja perimetral.</li>
+      <li>Eléctrico interno: circuito dedicado de 20 A para el Panther y contactos por estación, probados.</li>
+      <li>Tensado de todas las telas impresas.</li>
+      <li>Muro de la pantalla principal listo para el proveedor de video.</li>
+      <li>Muebles: auditorio de cubos rojos, mesa redonda con 6 bancos, sillón rojo, mesas por estación.</li>
+      <li>Prueba de iluminación con todo encendido.</li>
+      <li>Limpieza y entrega a Polar. Las huellas de los equipos quedan libres y marcadas en el piso.</li></ul></div>
+    <div class="day"><div class="d">Mar 27 oct<span>Día 4 · 09–20 h</span><em>Llega LICON con sus equipos</em></div>
+      <ul><li>LICON llega con sus equipos y los colocan sus técnicos. El stand ya debe estar terminado.</li>
+      <li>Cuadrilla reducida de guardia: apoyo en maniobra (sobre todo el Panther, hasta 423 kg), ajustes de contactos y detalles que salgan al colocar equipo.</li>
+      <li>Retiro final de la protección del piso en cuanto los equipos estén en su lugar, y limpieza.</li></ul></div>
+    <div class="day ev"><div class="d">28 – 31 oct<span>Congreso</span></div>
+      <ul><li>Guardia para ajustes (telas, luz, eléctrico) en el horario que se confirme.</li>
+      <li>Sáb 31, desde las 15:00 (hora que confirme el coordinador): desmontaje, embalaje, retiro de todos los residuos y entrega del espacio en las mismas condiciones en que se recibió.</li></ul></div>
+  </div>
+</section>
+
+<section id="acceso">
+  <h2><span class="n">03</span>Ubicación y acceso de carga</h2>
+  <p class="lead">Expo Chihuahua, Av. Tecnológico 1900, Santo Niño, 31200 Chihuahua, Chih. El stand 37 está al centro del salón, entre Becton Dickinson (35) y FEMPAC / Greiner (36). Al norte quedan Werfen y Biomérieux; al sur, Abalat (43). <b>La entrada de material es por los andenes del lado derecho del salón</b> (flechas amarillas), nunca por las entradas frontales. Se cruza el pasillo frente a Roche y Shift para llegar al stand.</p>
+  <ul class="plain">
+    <li>Los andenes son solo para carga y descarga. Los tráileres se mueven al estacionamiento general en cuanto descargan.</li>
+    <li>Todo el material se registra al entrar.</li>
+    <li>Tiempo de cortesía en andén: auto o camioneta 30 min, camioneta a rabón 1 h, rabón y tórton 1½ h, tráiler 2 h. Después se cobra por hora ($150 a $225).</li>
+    <li>Montacargas o pluma dentro del salón: solo los de Expo Chihuahua, con costo y pago previo (Socorro Barrón, sección 10).</li>
+    <li>No se puede dormir ni quedarse en los vehículos al terminar la jornada.</li>
+  </ul>
+  <div class="cols">
+    <figure><img class="zoom" src="img/planograma_zoom.jpg" alt="Zona del planograma con el stand LICON 37 marcado en rojo y flechas amarillas de acceso a la derecha" loading="lazy"><figcaption>Stand 37 marcado en rojo. Flechas amarillas: accesos de carga.</figcaption></figure>
+    <figure><img class="zoom" src="img/planograma.jpg" alt="Planograma completo del Congreso de Patología 2026" loading="lazy"><figcaption>Planograma completo del congreso. Toca para ampliar.</figcaption></figure>
+  </div>
+  <div class="note"><b>Orientación por confirmar:</b> en el planograma el stand está dibujado vertical (10 m de frente al norte, 16 m de fondo); la planta de diseño lo muestra horizontal. Definir en sitio con Polar qué lado del stand queda hacia cada pasillo antes de hacer el trazo.</div>
+</section>
+
+<section id="renders">
+  <h2><span class="n">04</span>Renders</h2>
+  <p class="lead">Recorrido de 360° y vistas fijas del diseño vigente. El recuadro verde es la pantalla LED principal (la instala el proveedor de video).</p>
+  <figure><video src="img/recorrido.mp4" controls muted loop playsinline preload="metadata" poster="img/render_01.jpg"></video><figcaption>Recorrido del stand (7 s, en loop).</figcaption></figure>
+  <div class="gallery">
+    <img src="img/render_01.jpg" alt="Vista frontal: cajas de luz con pósters y muro LICON con pantalla y auditorio" loading="lazy">
+    <img src="img/render_02.jpg" alt="Vista frontal en diagonal con auditorio de cubos rojos" loading="lazy">
+    <img src="img/render_03.jpg" alt="Esquina del auditorio, muro LICON y estación de equipo" loading="lazy">
+    <img src="img/render_04.jpg" alt="Lateral con logo LICON y pantalla" loading="lazy">
+    <img src="img/render_05.jpg" alt="Lateral con cajas de luz y estaciones" loading="lazy">
+    <img src="img/render_06.jpg" alt="Vista posterior con mesa redonda y estaciones de equipo" loading="lazy">
+    <img src="img/render_07.jpg" alt="Esquina posterior con cajas de luz y equipo" loading="lazy">
+  </div>
+</section>
+
+<section id="planta">
+  <h2><span class="n">05</span>Planta y cajas de luz</h2>
+  <p class="lead">Ocho cajas de luz de doble cara (interior / exterior) y un muro de 5.0 × 4.0 m. Altura de cara: 3.70 m. En las caras interiores con equipo, la huella blanca del plano marca dónde va el equipo al pie de la caja.</p>
+  <figure><img class="zoom" src="img/planta_cajas.jpg" alt="Planta del stand con cajas de luz acotadas, caras interior y exterior y ubicación de cada equipo" loading="lazy"><figcaption>Planta con medidas de cajas (19 oct). Toca para ampliar.</figcaption></figure>
+
+  <h3 id="mapa-cajas">Mapa: qué tela va en cada cara</h3>
+  <p class="lead">Toca un número en la planta o en la fila de números para ver la cara: medida de la tela, equipo que va al pie y si la tela ya está impresa.</p>
+  <div class="cj-sum" id="cj-sum"></div>
+  <div class="cj-grid">
+    <div class="cj-box">
+      <div class="cj-scroll"><div class="cj-plan" id="cj-plan"><img src="img/cajas/planta_numerada.jpg" alt="Planta del stand con las 15 caras de luz numeradas" loading="lazy"></div></div>
+      <p class="cj-hint m">Desliza la planta a los lados para verla completa.</p>
+      <div class="cj-nums" id="cj-nums" aria-label="Elegir cara por número"></div>
+    </div>
+    <div class="cj-box cj-det" id="cj-det" aria-live="polite">
+      <p class="cj-title" id="cj-t"></p>
+      <p class="cj-where" id="cj-w"></p>
+      <dl class="cj-big" id="cj-b"></dl>
+      <div class="cj-row" id="cj-s"></div>
+      <div class="cj-tg">
+        <button type="button" id="cj-art" aria-pressed="true">Gráfica</button>
+        <button type="button" id="cj-bleed" aria-pressed="true">Rebase</button>
+      </div>
+      <div class="cj-elev" id="cj-e"></div>
+      <p class="cj-note" id="cj-n"></p>
+    </div>
+  </div>
+  <h3>Por caja</h3>
+  <div class="cj-list" id="cj-list"></div>
+
+  <div class="tbl"><table>
+    <thead><tr><th>Caja</th><th>Ubicación en planta</th><th>Cara exterior</th><th>Cara interior</th><th>Equipo al pie</th></tr></thead>
+    <tbody>
+      <tr><td class="c">C1</td><td>Superior izquierda, junto a la mesa redonda</td><td class="num">1.60 × 3.70 m</td><td class="num">1.60 × 3.70 m</td><td>Erytra Eflexis · <span class="num">1.20 base × 1.80 alto</span></td></tr>
+      <tr><td class="c">C2</td><td>Fondo superior, bajo el letrero LICON</td><td class="num">2.70 × 3.70 m</td><td class="num">2.70 × 3.70 m</td><td>Sin equipo</td></tr>
+      <tr><td class="c">C3</td><td>Esquina superior derecha</td><td class="num">1.70 × 3.70 m</td><td class="num">1.70 × 3.70 m</td><td>R-Max · <span class="num">1.80 base × 1.30 alto</span> <span class="flag">base &gt; cara</span></td></tr>
+      <tr><td class="c">C4</td><td>Lado izquierdo, centro</td><td class="num">2.70 × 3.70 m</td><td class="num">2.70 × 3.70 m</td><td>Exterior: Procleix Panther · <span class="num">1.20 × 1.75</span><br>Interior: Alegría · <span class="num">1.50 × 1.60</span></td></tr>
+      <tr><td class="c">C5</td><td>Inferior izquierda</td><td class="num">1.60 × 3.70 m</td><td class="num">1.60 × 3.70 m</td><td>Hydrasys · <span class="num">1.70 base × 1.50 alto</span> <span class="flag">base &gt; cara</span></td></tr>
+      <tr><td class="c">C6</td><td>Inferior centro</td><td class="num">1.60 × 3.70 m</td><td class="num">1.60 × 3.70 m</td><td>Capillarys · <span class="num">1.70 base × 1.50 alto</span> <span class="flag">base &gt; cara</span></td></tr>
+      <tr><td class="c">C7</td><td>Centro del stand</td><td class="num">1.60 × 3.70 m</td><td class="num">1.60 × 3.70 m</td><td>Cube / Minicube · <span class="num">1.20 base × 1.30 alto</span></td></tr>
+      <tr><td class="c">M1</td><td>Muro derecho, frente a la barra de equipos</td><td colspan="2" class="num">5.00 × 4.00 m (una cara)</td><td>Agregómetro / CompactMax · <span class="num">3.40 base × 1.60 alto</span></td></tr>
+    </tbody>
+  </table></div>
+  <p class="prog">Total: 14 caras de 3.70 m de alto + 1 muro de 5.0 × 4.0 m = 15 telas impresas.</p>
+
+  <h3>Gráficos</h3>
+  <ul class="plain">
+    <li>LICON (Ricardo Andrade) sube los archivos de impresión a esta carpeta: <a href="https://drive.google.com/drive/folders/17fA8hl10DcL4DYVEVIVQCbleMuKqHzzn" target="_blank" rel="noopener">Gráficos Stand Patología (Drive)</a>.</li>
+    <li>Todas las telas llevan <b>10 cm de rebase por lado</b>: la tela mide la cara + 20 cm. Cara de 1.60 × 3.70 → tela de 1.80 × 3.90; cara de 2.70 × 3.70 → 2.90 × 3.90; las de R-Max (7 y 8) son 1.90 × 3.90; el muro M1 es 5.20 × 4.20.</li>
+    <li>Qué gráfica va en cada cara: <a href="#mapa-cajas">mapa interactivo</a> de arriba.</li>
+    <li><b>Vinil 9 (Juego de Coágulos):</b> el nombre del archivo dice 50 %, pero ya mide 520 × 420 cm a 150 dpi. Confirmar con Polar antes de escalar.</li>
+  </ul>
+</section>
+
+<section id="equipos">
+  <h2><span class="n">06</span>Equipos LICON en exhibición</h2>
+  <p class="lead">Los equipos llegan con LICON y los colocan sus técnicos. El montaje debe dejar espacio libre, piso nivelado, contactos y paso de maniobra.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Equipo</th><th>Caja</th><th>Medidas</th><th>Requisitos</th></tr></thead>
+    <tbody>
+      <tr><td><b>Procleix Panther</b></td><td class="c">C4 ext.</td><td class="num">122 × 81.5 × 175 cm<br>con MTU: 149 × 81.5 × 175</td><td><b>363–423 kg.</b> Refuerzo de tarima bajo la huella. Circuito dedicado de <b>20 A a 110 V</b> (1,400 W pico). Claro de servicio 1.83 × 1.73 m. Opera entre 15 y 30 °C.</td></tr>
+      <tr><td><b>Erytra Eflexis</b></td><td class="c">C1 int.</td><td class="num">1.20 × 1.80 m</td><td>Contacto regulado al pie.</td></tr>
+      <tr><td><b>R-Max</b></td><td class="c">C3 int.</td><td class="num">1.80 × 1.30 m</td><td>Base más ancha que la cara (1.70 m).</td></tr>
+      <tr><td><b>Alegría</b></td><td class="c">C4 int.</td><td class="num">1.50 × 1.60 m</td><td>Contacto al pie.</td></tr>
+      <tr><td><b>Hydrasys</b></td><td class="c">C5 int.</td><td class="num">1.70 × 1.50 m</td><td>Base más ancha que la cara (1.60 m).</td></tr>
+      <tr><td><b>Capillarys</b></td><td class="c">C6 int.</td><td class="num">1.70 × 1.50 m</td><td>Base más ancha que la cara (1.60 m).</td></tr>
+      <tr><td><b>Cube / Minicube</b></td><td class="c">C7 int.</td><td class="num">1.20 × 1.30 m</td><td>Contacto al pie.</td></tr>
+      <tr><td><b>Agregómetro + CompactMax</b></td><td class="c">M1</td><td class="num">3.40 × 1.60 m (conjunto)</td><td>Barra o mueble corrido frente al muro; contactos a lo largo.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="alcance">
+  <h2><span class="n">07</span>Alcance del montaje</h2>
+  <div class="cols">
+    <div>
+      <h3>Lo hace el equipo de montaje</h3>
+      <ul class="plain">
+        <li>Tarima de 10 cm en toda la huella, con refuerzo bajo el Panther.</li>
+        <li>Piso laminado de alto tráfico en 160 m²: 10 % de merma, bajopiso, zoclo, remate perimetral y protección durante el montaje. Sustituye al gráfico de piso.</li>
+        <li>Estructura negra, techos y filo rojo perimetral.</li>
+        <li>Ocho cajas de luz de doble cara y muro M1, con tensado de telas.</li>
+        <li>Mamparas ajustadas a la distribución final de estaciones.</li>
+        <li>Letreros LICON iluminados (dos, según render).</li>
+        <li>Instalación eléctrica por zonas e iluminación de producto.</li>
+        <li>Muebles: auditorio de cubos rojos (3 filas de 5), mesa redonda roja con 6 bancos, sillón rojo, mesas por estación. Dos muebles de piso rediseñados para la configuración final.</li>
+        <li>Limpieza previa a la apertura y desmontaje con retiro de residuos.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Lo hacen otros</h3>
+      <ul class="plain">
+        <li><b>Pantalla LED principal de 5 × 2.5 m:</b> proveedor de video. El montaje deja el muro listo y la alimentación.</li>
+        <li><b>Equipos de laboratorio:</b> técnicos de LICON.</li>
+        <li><b>Archivos de gráficos:</b> LICON (Ricardo Andrade).</li>
+      </ul>
+      <h3>No va en Chihuahua</h3>
+      <ul class="plain">
+        <li>Arco de pantalla LED (ni transparente ni de una cara).</li>
+        <li>Volúmenes blancos de canto curvo de la propuesta de agosto.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="reglas">
+  <h2><span class="n">08</span>Reglas del recinto</h2>
+  <p class="lead">Del <a href="docs/Manual_del_expositor_CNPC_2026.pdf" target="_blank" rel="noopener">Manual del Expositor</a> del 56° Congreso Nacional de Patología Clínica (PDF completo, incluye el formato del Anexo B). Si no se cumplen, el comité puede impedir la instalación del stand.</p>
+  <div class="key"><b>Prohibido dentro de las salas:</b> pegar, clavar, serruchar, taladrar, cortar, lijar o pintar sobre cualquier superficie del recinto, y amarrar estructuras a muros, columnas o barandales. Todo lo que necesite corte (incluido el laminado) llega precortado o se corta donde Operaciones de Expo Chihuahua lo autorice. Cualquier cinta doble, canela o gris va sobre una base de cinta azul.</div>
+  <div class="cols">
+    <div>
+      <h3>Personal</h3>
+      <ul class="plain">
+        <li>Cada persona se registra con INE o pasaporte y porta su gafete visible todo el tiempo.</li>
+        <li>Gafetes incluidos para 16 × 10 m: <b class="num">15</b>. Adicionales: $1,000 c/u, máximo 5.</li>
+        <li>Alta del IMSS de todo el personal.</li>
+        <li>Equipo de seguridad obligatorio: arnés para trabajo en altura, calzado de seguridad, guantes y lentes.</li>
+        <li>Zapato cerrado; nada de shorts ni camisetas sin manga.</li>
+        <li>Sin menores de edad. Recinto 100 % libre de humo, incluido vapeador.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Eléctrico</h3>
+      <ul class="plain">
+        <li>El stand de 16 × 10 m incluye <b class="num">8 contactos</b>. Voltaje 110 V o 220 V (220 V con costo).</li>
+        <li>Contactos adicionales y el circuito de 20 A del Panther se contratan con Expo Chihuahua; se instala solo con nota de venta pagada.</li>
+        <li>Regulador de voltaje obligatorio en cada equipo de laboratorio y de cómputo.</li>
+      </ul>
+      <h3>Almacén y limpieza</h3>
+      <ul class="plain">
+        <li>El recinto no tiene bodegas. Cajas, empaques y embalajes se guardan dentro del stand, en un espacio oculto.</li>
+        <li>Limpieza diaria del stand. La basura y los residuos de montaje (madera, plásticos, bases) los retira quien los genera.</li>
+        <li>Se entrega el espacio igual que como se recibió; limpieza extraordinaria o daños se cobran.</li>
+        <li>Si después del check list se pide un remontaje mayor al 10 %, hay cargo del 5 % sobre la renta del stand.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="verificar">
+  <h2><span class="n">09</span>Antes de dar por terminado</h2>
+  <p class="lead">Lista de puntos a confirmar. Las marcas se guardan solo en este teléfono.</p>
+  <ul class="check" id="checklist">
+    <li><label><input type="checkbox" id="k12"><span>Anexo B, INE e IMSS de todo el personal listos para el registro del sábado 24</span></label></li>
+    <li><label><input type="checkbox" id="k13"><span>Póliza de responsabilidad civil de la construcción del stand entregada<small>Se presenta antes de que entreguen el área.</small></span></label></li>
+    <li><label><input type="checkbox" id="k14"><span>Acta de Entrega-Recepción firmada y fotos del piso al recibir</span></label></li>
+    <li><label><input type="checkbox" id="k1"><span>Orientación del stand confirmada con Polar contra el planograma<small>Qué lado queda hacia cada pasillo.</small></span></label></li>
+    <li><label><input type="checkbox" id="k15"><span>Lugar autorizado para cortes de laminado y madera confirmado con Operaciones</span></label></li>
+    <li><label><input type="checkbox" id="k3"><span>Altura del salón revisada contra los 4.0 m del diseño<small>El manual solo dice "altura variable según el área".</small></span></label></li>
+    <li><label><input type="checkbox" id="k4"><span>Refuerzo de tarima bajo el Panther (hasta 423 kg)</span></label></li>
+    <li><label><input type="checkbox" id="k5"><span>Circuito dedicado de 20 A a 110 V para el Panther contratado y probado</span></label></li>
+    <li><label><input type="checkbox" id="k17"><span>Huellas de cada equipo libres y marcadas en el piso para el martes</span></label></li>
+    <li><label><input type="checkbox" id="k16"><span>Espacio oculto para cajas y empaques dentro del stand</span></label></li>
+    <li><label><input type="checkbox" id="k6"><span>Huellas de R-Max, Hydrasys y Capillarys resueltas<small>Sus bases (1.70–1.80 m) son más anchas que su cara de caja (1.60–1.70 m).</small></span></label></li>
+    <li><label><input type="checkbox" id="k7"><span>Telas a la cara + 20 cm (10 cm de rebase por lado) y escala del vinil 9 confirmada</span></label></li>
+    <li><label><input type="checkbox" id="k8"><span>Muro de pantalla principal listo para el proveedor de video</span></label></li>
+    <li><label><input type="checkbox" id="k9"><span>Prueba de iluminación completa con todo encendido</span></label></li>
+    <li><label><input type="checkbox" id="k10"><span>Piso laminado sin juntas abiertas; protección retirada</span></label></li>
+    <li><label><input type="checkbox" id="k11"><span>Limpieza final y entrega a Polar el lunes 26 antes de las 20 h</span></label></li>
+  </ul>
+  <p class="prog" id="prog">0 de 17 listos</p>
+</section>
+
+<section id="contactos">
+  <h2><span class="n">10</span>Contactos</h2>
+  <div class="contacts">
+    <div><b>Roberto Carpinteyro</b><span>Polar Multimedia · dirección del proyecto</span><span class="num">55 1320 5237</span></div>
+    <div><b>Verónica Silva</b><span>Polar Multimedia · proveedores y compras</span><span class="num">veronica@polarmultimedia.com</span></div>
+    <div><b>Diego Rivera</b><span>LICON · Subdirector de Marketing</span><span class="num">diego.rivera@licon.com.mx</span></div>
+    <div><b>Ricardo Andrade</b><span>LICON · archivos de gráficos</span><span class="num">ricardo.andrade@licon.com.mx</span></div>
+  </div>
+  <h3>Congreso y recinto</h3>
+  <div class="contacts">
+    <div><b>Dr. Jorge Manuel Sánchez González</b><span>Coordinador de Exposición Tecnológica</span><span class="num">55 2300 6187</span></div>
+    <div><b>Dr. Jorge H. Portillo Gallo</b><span>Comité organizador</span><span class="num">614 427 6975</span></div>
+    <div><b>Lic. Camilo Rubén Hernández Murillo</b><span>Coordinación administrativa · JS3 Scientific Solutions</span><span class="num">477 140 7505</span></div>
+    <div><b>Socorro Barrón Vázquez</b><span>Expo Chihuahua · servicios, montacargas, eléctrico</span><span class="num">614 214 2600</span></div>
+  </div>
+</section>
+
+</main>
+
+<div id="lb" hidden role="dialog" aria-label="Imagen ampliada"><button type="button" id="lbclose">Cerrar</button><img alt=""></div>
+
+<script>
+(function(){
+  var lb=document.getElementById('lb'), lbi=lb.querySelector('img');
+  function open(src,alt,big){lbi.src=src;lbi.alt=alt||'';lb.classList.toggle('fit',!big);lb.hidden=false;}
+  document.querySelectorAll('.gallery img').forEach(function(i){i.addEventListener('click',function(){open(i.src,i.alt,false)})});
+  document.querySelectorAll('img.zoom').forEach(function(i){i.addEventListener('click',function(){open(i.src,i.alt,true)})});
+  lb.addEventListener('click',function(){lb.hidden=true;lbi.src='';});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){lb.hidden=true;}});
+  var boxes=document.querySelectorAll('#checklist input'), prog=document.getElementById('prog'), KEY='licon-pato-check';
+  var saved={}; try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){}
+  function upd(){var n=0;boxes.forEach(function(b){if(b.checked)n++});prog.textContent=n+' de '+boxes.length+' listos';}
+  boxes.forEach(function(b){b.checked=!!saved[b.id];b.addEventListener('change',function(){saved[b.id]=b.checked;try{localStorage.setItem(KEY,JSON.stringify(saved))}catch(e){};upd();});});
+  upd();
+})();
+</script>
+
+<script>
+(function(){
+// Estado de impresión al 20 oct 2026, 17:00
+var F=[
+ {n:1,name:"Making NAT",c:"C4",box:"Columna Panther / Alegría",side:"Exterior",w:270,h:370,ob:{name:"Panther",x0:75,x1:195,h:175},art:1,imp:1,mk:[13.6,57.4]},
+ {n:2,name:"Alegre-Mente",c:"C4",box:"Columna Panther / Alegría",side:"Interior",w:270,h:370,ob:{name:"Alegría",x0:60,x1:210,h:160},art:2,imp:1,mk:[34.7,60.8]},
+ {n:3,name:"Los juegos de la sangre",c:"C1",box:"Columna Eflexis",side:"Exterior",w:160,h:370,ob:null,art:3,imp:1,mk:[19.5,19.0]},
+ {n:4,name:"La casa DG Gel",c:"C1",box:"Columna Eflexis",side:"Interior",w:160,h:370,ob:{name:"Eflexis",x0:20,x1:140,h:180},art:4,imp:1,mk:[29.3,19.0]},
+ {n:5,name:"En busca de la compatibilidad",c:"C2",box:"Muro frontal",side:"Interior",w:270,h:370,ob:null,art:5,imp:1,mk:[51.4,27.1]},
+ {n:6,name:"Expedición LICON",c:"C2",box:"Muro frontal",side:"Exterior",w:270,h:370,ob:null,art:6,imp:1,mk:[51.4,9.5]},
+ {n:7,name:"Star Max, la trombosis contraataca",c:"C3",box:"Esquina R-Max",side:"Interior",w:170,h:370,ob:{name:"R-Max",x0:-5,x1:175,h:130},art:7,imp:1,mk:[75.5,24.4]},
+ {n:8,name:"La hemostasia se viste de Stago",c:"C3",box:"Esquina R-Max",side:"Exterior",w:170,h:370,ob:null,art:0,imp:0,mk:[86.4,10.2]},
+ {n:9,name:"Juego de Coágulos",c:"M1",box:"Muro Agregómetro",side:"Única",w:500,h:400,ob:{name:"Agregómetro + CompactMax",x0:80,x1:420,h:160},art:9,imp:1,mk:[76.4,45.9],vinil:1},
+ {n:10,name:"Instituto LICON – First Class",c:"C7",box:"Cube / Minicube",side:"Exterior",w:160,h:370,ob:null,art:10,imp:1,mk:[55.6,50.2]},
+ {n:11,name:"Gravedad y sedimentación",c:"C7",box:"Cube / Minicube",side:"Interior",w:160,h:370,ob:{name:"Cube / Minicube",x0:15,x1:135,h:130},art:11,imp:1,mk:[45.5,48.2]},
+ {n:12,name:"Blood Story",c:"C6",box:"Capillarys",side:"Exterior",w:160,h:370,ob:null,art:0,imp:0,mk:[49.1,96.0]},
+ {n:13,name:"Rápidos y Electroforéticos",c:"C6",box:"Capillarys",side:"Interior",w:160,h:370,ob:{name:"Capillarys",x0:-5,x1:165,h:150},art:13,imp:1,mk:[49.5,81.4]},
+ {n:14,name:"Stranger Kits",c:"C5",box:"Hydrasys",side:"Exterior",w:160,h:370,ob:null,art:0,imp:0,mk:[27.3,96.0]},
+ {n:15,name:"Hydrasys 2 Scan",c:"C5",box:"Hydrasys",side:"Interior",w:160,h:370,ob:{name:"Hydrasys",x0:-5,x1:165,h:150},art:15,imp:1,mk:[27.3,82.8]}
+];
+var B=10, S={sel:1,art:true,bleed:true};
+try{var s=parseInt(localStorage.getItem("cj-sel"));if(s>=1&&s<=15)S.sel=s}catch(e){}
+function st(f){return f.imp?{k:"ok",l:"En impresión"}:{k:"pend",l:"Falta archivo"}}
+function src(f){return "img/cajas/caja_"+(f.art<10?"0":"")+f.art+".jpg"}
+function tela(f){return (f.w+2*B)+" × "+(f.h+2*B)}
+var ok=F.filter(function(f){return f.imp}).length;
+document.getElementById("cj-sum").innerHTML='<span class="cj-chip ok"><i class="cj-dot" style="background:currentColor"></i>'+ok+' de 15 telas en impresión</span><span class="cj-chip pend"><i class="cj-dot" style="background:currentColor"></i>Faltan '+(15-ok)+': '+F.filter(function(f){return !f.imp}).map(function(f){return f.n}).join(", ")+'</span>';
+var plan=document.getElementById("cj-plan"), nums=document.getElementById("cj-nums");
+F.forEach(function(f){
+  var k=st(f).k;
+  var b=document.createElement("button");b.type="button";b.className="cj-mk "+k;b.textContent=f.n;
+  b.style.left=f.mk[0]+"%";b.style.top=f.mk[1]+"%";b.dataset.n=f.n;
+  b.setAttribute("aria-label","Cara "+f.n+": "+f.name);
+  b.addEventListener("click",function(){sel(f.n,true)});plan.appendChild(b);
+  var c=document.createElement("button");c.type="button";c.textContent=f.n;c.dataset.n=f.n;if(k==="pend")c.className="pend";
+  c.setAttribute("aria-label","Cara "+f.n+": "+f.name);
+  c.addEventListener("click",function(){sel(f.n,true)});nums.appendChild(c);
+});
+// lista por caja
+var order=["C1","C2","C3","C4","C5","C6","C7","M1"], list=document.getElementById("cj-list");
+order.forEach(function(code){
+  var fs=F.filter(function(f){return f.c===code}); if(!fs.length)return;
+  var card=document.createElement("div");card.className="cj-card";
+  var h=document.createElement("h4");h.innerHTML='<span class="c">'+code+'</span>';h.appendChild(document.createTextNode(fs[0].box));card.appendChild(h);
+  fs.sort(function(a,b){return a.side<b.side?-1:1}).forEach(function(f){
+    var k=st(f);
+    var r=document.createElement("button");r.type="button";r.className="cj-face";
+    r.innerHTML='<span class="n '+k.k+'">'+f.n+'</span><span><b></b><span class="s">'+f.side+' · '+k.l+'</span></span><span class="m">'+tela(f)+'</span>';
+    r.querySelector("b").textContent=f.name;
+    r.addEventListener("click",function(){sel(f.n,true)});card.appendChild(r);
+  });
+  list.appendChild(card);
+});
+[["cj-art","art"],["cj-bleed","bleed"]].forEach(function(p){var b=document.getElementById(p[0]);b.addEventListener("click",function(){S[p[1]]=!S[p[1]];b.setAttribute("aria-pressed",S[p[1]]);draw()})});
+function sel(n,scroll){
+  S.sel=n;try{localStorage.setItem("cj-sel",n)}catch(e){}draw();
+  if(scroll&&window.matchMedia("(max-width:760px)").matches){var d=document.getElementById("cj-det");var red=window.matchMedia("(prefers-reduced-motion:reduce)").matches;d.scrollIntoView({behavior:red?"auto":"smooth",block:"start"})}
+}
+function draw(){
+  var f=F.filter(function(x){return x.n===S.sel})[0], k=st(f);
+  document.querySelectorAll(".cj-mk,#cj-nums button").forEach(function(b){b.setAttribute("aria-pressed",+b.dataset.n===f.n)});
+  document.getElementById("cj-t").textContent=f.n+". "+f.name;
+  document.getElementById("cj-w").textContent=f.c+" · "+f.box+" · cara "+f.side.toLowerCase();
+  document.getElementById("cj-b").innerHTML='<div><dt>Tela</dt><dd>'+tela(f)+' cm<small>cara visible '+f.w+' × '+f.h+'</small></dd></div><div><dt>Al pie</dt><dd style="font-family:var(--f-ui);font-size:15px;font-weight:700">'+(f.ob?f.ob.name:'Sin equipo')+(f.ob?'<small>'+(f.ob.x1-f.ob.x0)+' cm frente · '+f.ob.h+' cm alto</small>':'<small>cara libre</small>')+'</dd></div>';
+  document.getElementById("cj-s").innerHTML='<span class="cj-chip '+k.k+'"><i class="cj-dot" style="background:currentColor"></i>'+k.l+'</span>'+(f.vinil?'<span>Vinil, no tela</span>':'');
+  var n="";
+  if(f.ob&&(f.ob.x0<0||f.ob.x1>f.w))n+="El equipo es más ancho que la cara y sobresale unos 5 cm por lado. ";
+  if(!f.imp)n+="El archivo de impresión todavía no llega.";
+  if(f.w===170)n+=" Esta caja es de 1.70 m: su tela es más ancha que las de 1.60.";
+  document.getElementById("cj-n").textContent=n.trim();
+  document.getElementById("cj-e").innerHTML=svg(f);
+}
+function svg(f){
+  var W=f.w+2*B,H=f.h+2*B,pl=46,pr=16,pt=14,pb=36,VW=W+pl+pr,VH=H+pt+pb;
+  function X(x){return pl+B+x} function Y(y){return pt+B+(f.h-y)}
+  var T='font-family="Manrope, Arial, sans-serif"';
+  var s='<svg viewBox="0 0 '+VW+' '+VH+'" width="'+Math.min(VW*1.25,420)+'" role="img" aria-label="Cara '+f.n+' a escala">';
+  s+='<defs><pattern id="cj-h" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="var(--cj-block-fill)"/><line x1="0" y1="0" x2="0" y2="8" stroke="var(--cj-block)" stroke-width="2" opacity=".35"/></pattern><clipPath id="cj-c"><rect x="'+pl+'" y="'+pt+'" width="'+W+'" height="'+H+'"/></clipPath></defs>';
+  s+='<rect x="'+pl+'" y="'+pt+'" width="'+W+'" height="'+H+'" fill="var(--line)"/>';
+  if(S.art&&f.art)s+='<image href="'+src(f)+'" x="'+pl+'" y="'+pt+'" width="'+W+'" height="'+H+'" preserveAspectRatio="none" clip-path="url(#cj-c)"/>';
+  else if(S.art)s+='<text x="'+(pl+W/2)+'" y="'+(pt+H*.3)+'" text-anchor="middle" '+T+' font-weight="700" font-size="'+Math.max(12,W/12)+'" fill="var(--muted)">Sin gráfica</text>';
+  if(S.bleed)s+='<path d="M'+pl+' '+pt+'h'+W+'v'+H+'h-'+W+'z M'+X(0)+' '+Y(f.h)+'v'+f.h+'h'+f.w+'v-'+f.h+'z" fill="var(--bg)" fill-opacity=".55" fill-rule="evenodd"/><rect x="'+pl+'" y="'+pt+'" width="'+W+'" height="'+H+'" fill="none" stroke="var(--red)" stroke-width="1.5" stroke-dasharray="6 4"/>';
+  s+='<rect x="'+X(0)+'" y="'+Y(f.h)+'" width="'+f.w+'" height="'+f.h+'" fill="none" stroke="var(--ink)" stroke-width="2.5"/>';
+  if(f.ob){var x0=Math.max(f.ob.x0,-B),x1=Math.min(f.ob.x1,f.w+B);
+    s+='<rect x="'+X(x0)+'" y="'+Y(f.ob.h)+'" width="'+(x1-x0)+'" height="'+(f.ob.h+B)+'" fill="url(#cj-h)" stroke="var(--cj-block)" stroke-width="1.5"/><text x="'+X((x0+x1)/2)+'" y="'+Y(f.ob.h/2)+'" text-anchor="middle" '+T+' font-weight="800" font-size="13" fill="#fff">'+f.ob.name+'</text>'}
+  for(var y=0;y<=f.h;y+=100){s+='<line x1="'+(pl-6)+'" x2="'+pl+'" y1="'+Y(y)+'" y2="'+Y(y)+'" stroke="var(--muted)"/><text x="'+(pl-9)+'" y="'+(Y(y)+4)+'" text-anchor="end" '+T+' font-size="12" fill="var(--muted)">'+(y/100)+' m</text>'}
+  var yb=pt+H+16;
+  s+='<line x1="'+X(0)+'" x2="'+X(f.w)+'" y1="'+yb+'" y2="'+yb+'" stroke="var(--ink)"/><line x1="'+X(0)+'" x2="'+X(0)+'" y1="'+(yb-5)+'" y2="'+(yb+5)+'" stroke="var(--ink)"/><line x1="'+X(f.w)+'" x2="'+X(f.w)+'" y1="'+(yb-5)+'" y2="'+(yb+5)+'" stroke="var(--ink)"/><text x="'+X(f.w/2)+'" y="'+(yb+16)+'" text-anchor="middle" '+T+' font-weight="800" font-size="13" fill="var(--ink)">'+(f.w/100).toFixed(2)+' m</text>';
+  return s+'</svg>';
+}
+draw();
+})();
+</script>
+
+
+</body>
+</html>
