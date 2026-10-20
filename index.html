@@ -466,7 +466,7 @@ a{color:var(--red)}
 
 <script>
 (function(){
-// Estado de impresión al 20 oct 2026, 17:00
+// Estado de impresión al 20 oct 2026, 17:15
 var F=[
  {n:1,name:"Making NAT",c:"C4",box:"Columna Panther / Alegría",side:"Exterior",w:270,h:370,ob:{name:"Panther",x0:75,x1:195,h:175},art:1,imp:1,mk:[13.6,57.4]},
  {n:2,name:"Alegre-Mente",c:"C4",box:"Columna Panther / Alegría",side:"Interior",w:270,h:370,ob:{name:"Alegría",x0:60,x1:210,h:160},art:2,imp:1,mk:[34.7,60.8]},
@@ -475,7 +475,7 @@ var F=[
  {n:5,name:"En busca de la compatibilidad",c:"C2",box:"Muro frontal",side:"Interior",w:270,h:370,ob:null,art:5,imp:1,mk:[51.4,27.1]},
  {n:6,name:"Expedición LICON",c:"C2",box:"Muro frontal",side:"Exterior",w:270,h:370,ob:null,art:6,imp:1,mk:[51.4,9.5]},
  {n:7,name:"Star Max, la trombosis contraataca",c:"C3",box:"Esquina R-Max",side:"Interior",w:170,h:370,ob:{name:"R-Max",x0:-5,x1:175,h:130},art:7,imp:1,mk:[75.5,24.4]},
- {n:8,name:"La hemostasia se viste de Stago",c:"C3",box:"Esquina R-Max",side:"Exterior",w:170,h:370,ob:null,art:0,imp:0,mk:[86.4,10.2]},
+ {n:8,name:"La hemostasia se viste de Stago",c:"C3",box:"Esquina R-Max",side:"Exterior",w:170,h:370,ob:null,art:8,imp:2,mk:[86.4,10.2]},
  {n:9,name:"Juego de Coágulos",c:"M1",box:"Muro Agregómetro",side:"Única",w:500,h:400,ob:{name:"Agregómetro + CompactMax",x0:80,x1:420,h:160},art:9,imp:1,mk:[76.4,45.9],vinil:1},
  {n:10,name:"Instituto LICON – First Class",c:"C7",box:"Cube / Minicube",side:"Exterior",w:160,h:370,ob:null,art:10,imp:1,mk:[55.6,50.2]},
  {n:11,name:"Gravedad y sedimentación",c:"C7",box:"Cube / Minicube",side:"Interior",w:160,h:370,ob:{name:"Cube / Minicube",x0:15,x1:135,h:130},art:11,imp:1,mk:[45.5,48.2]},
@@ -486,11 +486,11 @@ var F=[
 ];
 var B=10, S={sel:1,art:true,bleed:true};
 try{var s=parseInt(localStorage.getItem("cj-sel"));if(s>=1&&s<=15)S.sel=s}catch(e){}
-function st(f){return f.imp?{k:"ok",l:"En impresión"}:{k:"pend",l:"Falta archivo"}}
+function st(f){return f.imp===1?{k:"ok",l:"En impresión"}:f.imp===2?{k:"pend",l:"Archivo listo, por imprimir"}:{k:"pend",l:"Falta archivo"}}
 function src(f){return "img/cajas/caja_"+(f.art<10?"0":"")+f.art+".jpg"}
 function tela(f){return (f.w+2*B)+" × "+(f.h+2*B)}
-var ok=F.filter(function(f){return f.imp}).length;
-document.getElementById("cj-sum").innerHTML='<span class="cj-chip ok"><i class="cj-dot" style="background:currentColor"></i>'+ok+' de 15 telas en impresión</span><span class="cj-chip pend"><i class="cj-dot" style="background:currentColor"></i>Faltan '+(15-ok)+': '+F.filter(function(f){return !f.imp}).map(function(f){return f.n}).join(", ")+'</span>';
+var ok=F.filter(function(f){return f.imp===1}).length;
+document.getElementById("cj-sum").innerHTML='<span class="cj-chip ok"><i class="cj-dot" style="background:currentColor"></i>'+ok+' de 15 telas en impresión</span><span class="cj-chip pend"><i class="cj-dot" style="background:currentColor"></i>Faltan '+(15-ok)+': '+F.filter(function(f){return f.imp!==1}).map(function(f){return f.n}).join(", ")+'</span>';
 var plan=document.getElementById("cj-plan"), nums=document.getElementById("cj-nums");
 F.forEach(function(f){
   var k=st(f).k;
@@ -531,7 +531,7 @@ function draw(){
   document.getElementById("cj-s").innerHTML='<span class="cj-chip '+k.k+'"><i class="cj-dot" style="background:currentColor"></i>'+k.l+'</span>'+(f.vinil?'<span>Vinil, no tela</span>':'');
   var n="";
   if(f.ob&&(f.ob.x0<0||f.ob.x1>f.w))n+="El equipo es más ancho que la cara y sobresale unos 5 cm por lado. ";
-  if(!f.imp)n+="El archivo de impresión todavía no llega.";
+  if(f.imp===0)n+="El archivo de impresión todavía no llega.";if(f.imp===2)n+="El archivo ya está listo; falta mandarlo a imprimir.";
   if(f.w===170)n+=" Esta caja es de 1.70 m: su tela es más ancha que las de 1.60.";
   document.getElementById("cj-n").textContent=n.trim();
   document.getElementById("cj-e").innerHTML=svg(f);
